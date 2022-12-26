@@ -30,16 +30,20 @@ const updateDept = async (req, res) => {
             }
             else {
                 console.log("ID Found");
-                let ans = await deptModel.findByIdAndUpdate(id, { $set: temp }).then(() => {
-                    console.log("Data Updated");
-                    return {
-                        statusCode: 200,
-                        body: JSON.stringify("Data Has Updated....")
+                let ans = await deptModel.findByIdAndUpdate(id, { $set: temp }).then((data) => {
+                    if(data != null){
+                        console.log("Data Updated");
+                        return {
+                            statusCode: 200,
+                            body: JSON.stringify("Data Has Updated....")
+                        }
                     }
-                }).catch(error => {
-                    return {
-                        statusCode: 404,
-                        body: JSON.stringify("Data Has Not Updated....")
+                    else
+                    {
+                        return {
+                            statusCode: 404,
+                            body: JSON.stringify("Data Has Not Updated....")
+                        }
                     }
                 })
                 return ans;
