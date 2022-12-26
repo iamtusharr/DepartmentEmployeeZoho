@@ -1,0 +1,35 @@
+service: server
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+
+plugins:
+  - serverless-offline
+
+functions:
+  createDept:
+    handler: ./api/department/createDept.createDept
+    events:
+      - httpApi:
+          path: /createDept
+          method: post
+  displayDept:
+    handler: ./api/department/displayDept.displayDept
+    events:
+      - httpApi:
+          path: /displayDept
+          method: get
+  deleteDept:
+    handler: ./api/department/deleteDept.deleteDept
+    events:
+      - httpApi:
+          path: /deleteDept
+          method: delete
+  updateDept:
+    handler: ./api/department/updateDept.updateDept
+    events:
+      - httpApi:
+          path: /updateDept
+          method: put
