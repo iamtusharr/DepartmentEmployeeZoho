@@ -57,3 +57,27 @@ functions:
       - httpApi:
           path: /updateDivision
           method: put
+  createDesignation:
+    handler: ./api/designation/createDesignation.createDesignation
+    events:
+      - httpApi:
+          path: /createDesignation
+          method: post
+  displayDesignation:
+    handler: ./api/designation/displayDesignation.displayDesignation
+    events:
+      - httpApi:
+          path: /displayDesignation
+          method: get
+  deleteDesignation:
+    handler: ./api/designation/deleteDesignation.deleteDesignation
+    events:
+      - httpApi:
+          path: /deleteDesignation
+          method: delete
+  updateDesignation:
+    handler: ./api/designation/updateDesignation.updateDesignation
+    events:
+      - httpApi:
+          path: /updateDesignation
+          method: put
