@@ -33,3 +33,27 @@ functions:
       - httpApi:
           path: /updateDept
           method: put
+  createDivision:
+    handler: ./api/division/createDivision.createDivision
+    events:
+      - httpApi:
+          path: /createDivision
+          method: post
+  displayDivision:
+    handler: ./api/division/displayDivision.displayDivision
+    events:
+      - httpApi:
+          path: /displayDivision
+          method: get
+  deleteDivision:
+    handler: ./api/division/deleteDivision.deleteDivision
+    events:
+      - httpApi:
+          path: /deleteDivision
+          method: delete
+  updateDivision:
+    handler: ./api/division/updateDivision.updateDivision
+    events:
+      - httpApi:
+          path: /updateDivision
+          method: put
