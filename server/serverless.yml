@@ -81,3 +81,27 @@ functions:
       - httpApi:
           path: /updateDesignation
           method: put
+  createEmployee:
+    handler: ./api/employee/createEmployee.createEmployee
+    events:
+      - httpApi:
+          path: /createEmployee
+          method: post
+  deleteEmployee:
+    handler: ./api/employee/deleteEmployee.deleteEmployee
+    events:
+      - httpApi:
+          path: /deleteEmployee
+          method: delete
+  displayEmployee:
+    handler: ./api/employee/displayEmployee.displayEmployee
+    events:
+      - httpApi:
+          path: /displayEmployee
+          method: get
+  updateEmployee:
+    handler: ./api/employee/updateEmployee.updateEmployee
+    events:
+      - httpApi:
+          path: /updateEmployee
+          method: put
