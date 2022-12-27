@@ -4,11 +4,12 @@ const deptModel = require('../../model/department')
 
 const checkDept = async (deptName) => {
     let result = await deptModel.findOne({ "deptName": deptName });    
-    // console.log(result)
     if (result != null) {     
         return false;
     }    
     return true;
+
+
 }
 
 const updateDept = async (req, res) => {
@@ -19,7 +20,8 @@ const updateDept = async (req, res) => {
     .then(async (result) => {
         // console.log(result)
         let Store = await checkDept(newData.deptName)
-        if (result != null) {            
+        if (result != null) {
+            
             if(Store)
             {
                 console.log("Dept Name not exist");
