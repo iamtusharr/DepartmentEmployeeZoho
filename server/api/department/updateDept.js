@@ -10,8 +10,6 @@ const checkDept = async (deptName) => {
         return false;
     }    
     return true;
-
-
 }
 
 const updateDept = async (req, res) => {
