@@ -75,6 +75,7 @@ const updateDept = async (req, res) => {
                     body: JSON.stringify("Data Has Not Updated....")
                 }
             })
+            console.log(ans);
             return ans;
         }
 
