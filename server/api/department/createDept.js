@@ -23,8 +23,6 @@ const createDept = async (req, res) => {
             body: JSON.stringify(result)
         }
     }
-
-
 }
 
 module.exports={createDept};
