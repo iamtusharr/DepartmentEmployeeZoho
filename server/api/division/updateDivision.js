@@ -3,81 +3,60 @@ const divisionModel = require('../../model/division')
 mongoose.connect('mongodb://localhost:27017/DepartmentEmployeeZoho');
 
 
+const checkDivision = async (divisionName) => {
+    let result = await divisionModel.findOne({ "divName": divisionName });
+    // console.log(result)
+    if (result != null) {
+        return false;
+    }
+    return true;
+}
+
+
 const updateDivision = async (req, res) => {
-    const temp = JSON.parse(req.body)
-    const id = temp._id
-    console.log(id);
-    if (temp.divName) {
-        let divName = temp.divName;
-        console.log(divName)
-        let checkDivision = await divisionModel.find({ "divName": divName })
-        console.log("--> ", checkDivision)
-        if (checkDivision.length > 0) {
-            console.log("Division Name already exist")
+ 
+
+
+
+    let newData = await JSON.parse(req.body);
+    try {
+        let temp = await divisionModel.findOne({ "_id": newData._id })
+        if (temp != null) {            
+            let Store = await checkDivision(newData.divName)
+            if (Store) {
+                console.log("Division Name not exist");
+                let query = divisionModel.findByIdAndUpdate(newData._id, { $set: newData }).then((data) => {
+                    return {
+                        statusCode: 200,
+                        body: JSON.stringify("Data Updated")
+                    }
+                })
+                return query;
+            }
             return {
                 statusCode: 404,
                 body: JSON.stringify("Division Name Already Exist")
             }
-        }
-        else {
-            let checkID = await divisionModel.findOne({ "_id": id })
-            if (checkID == null) {
-                console.log("Id Not found");
-                return {
-                    statusCode: 404,
-                    body: JSON.stringify("Invalid ID....")
-                }
-            }
-            else {
-                console.log("ID Found");
-                let ans = await divisionModel.findByIdAndUpdate(id, { $set: temp }).then(() => {
-                    console.log("Data Updated");
-                    return {
-                        statusCode: 200,
-                        body: JSON.stringify("Data Has Updated....")
-                    }
-                }).catch(error => {
-                    return {
-                        statusCode: 404,
-                        body: JSON.stringify("Data Has Not Updated....")
-                    }
-                })
-                return ans;
-            }
 
-        }
-
-    }
-    else {
-        let checkID = await divisionModel.findOne({ "_id": id })
-        if (checkID == null) {
-            console.log("Id Not found");
+        } else {
             return {
                 statusCode: 404,
-                body: JSON.stringify("Invalid ID....")
+                body: "Invalid ID"
             }
         }
-        else {
-            console.log("ID Found");
-            let ans = await divisionModel.findByIdAndUpdate(id, { $set: temp }).then(() => {
-                console.log("Data Updated");
-                return {
-                    statusCode: 200,
-                    body: JSON.stringify("Data Has Updated....")
-                }
-            }).catch(error => {
-                return {
-                    statusCode: 404,
-                    body: JSON.stringify("Data Has Not Updated....")
-                }
-            })
-            return ans;
-        }
-
     }
-
-
+    catch(error) 
+    {
+        return{
+            statusCode : 404,
+            body : JSON.stringify("Invalid ID")
+        }
+    }
 }
+    
+
+
+
 
 
 module.exports = { updateDivision }
