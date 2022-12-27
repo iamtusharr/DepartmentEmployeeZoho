@@ -5,6 +5,7 @@ mongoose.connect('mongodb://localhost:27017/DepartmentEmployeeZoho');
 
 const checkDept = async (deptName) => {
     let result = await deptModel.findOne({ "deptName": deptName });    
+    // console.log(result)
     if (result != null) {     
         return false;
     }    
@@ -18,8 +19,7 @@ const updateDept = async (req, res) => {
     let newData = await JSON.parse(req.body);
     let temp = deptModel.findById(newData._id).then(async (result) => {
         let Store = await checkDept(newData.deptName)
-        if (result != null) {
-            
+        if (result != null) {            
             if(Store)
             {
                 console.log("Dept Name not exist");
