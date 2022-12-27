@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const deptModel = require('../../model/department')
-mongoose.connect('mongodb://localhost:27017/DepartmentEmployeeZoho');
 
 
 const checkDept = async (deptName) => {
@@ -14,9 +13,12 @@ const checkDept = async (deptName) => {
 }
 
 const updateDept = async (req, res) => {
-
+    mongoose.connect('mongodb://localhost:27017/DepartmentEmployeeZoho');
+    
     let newData = await JSON.parse(req.body);
-    let temp = deptModel.findById(newData._id).then(async (result) => {
+    let temp = deptModel.findById(newData._id)
+    .then(async (result) => {
+        // console.log(result)
         let Store = await checkDept(newData.deptName)
         if (result != null) {
             
@@ -26,7 +28,7 @@ const updateDept = async (req, res) => {
                 let query = deptModel.findByIdAndUpdate(newData._id,{$set : newData}).then((data) =>{
                     return{
                         statusCode : 200,
-                        body : JSON.stringify(data)
+                        body : JSON.stringify("data updated")
                     }
                 })
                 return query;
@@ -36,13 +38,24 @@ const updateDept = async (req, res) => {
                 body : JSON.stringify("Dept Name Already Exist")
             }
         }
-    }).catch((err) => {
+        else{
+            return {
+                statusCode: 404,
+                body: "Invalid ID"
+            }
+        }
+    })
+    .catch((err) => {
         return {
             statusCode: 404,
             body: "Invalid ID"
         }
     })
     return temp;
+    // return{
+    //     statusCode:200,
+    //     body:"done"
+    // }
 }
 
 
