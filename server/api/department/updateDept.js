@@ -3,85 +3,46 @@ const deptModel = require('../../model/department')
 mongoose.connect('mongodb://localhost:27017/DepartmentEmployeeZoho');
 
 
+const checkDept = async (deptName) => {
+    let result = await deptModel.findOne({ "deptName": deptName });    
+    if (result != null) {     
+        return false;
+    }    
+    return true;
+
+
+}
+
 const updateDept = async (req, res) => {
-    const temp = JSON.parse(req.body)
-    const id = temp._id
-    console.log(id);
-    if (temp.deptName) {
-        let deptName = temp.deptName;
-        console.log(deptName)
-        let checkDept = await deptModel.find({ "deptName": deptName })
-        console.log("--> ", checkDept)
-        if (checkDept.length > 0) {
-            console.log("Department Name already exist")
-            return {
-                statusCode: 404,
-                body: JSON.stringify("Department Name Already Exist")
-            }
-        }
-        else {
-            let checkID = await deptModel.findOne({ "_id": id })
-            if (checkID == null) {
-                console.log("Id Not found");
-                return {
-                    statusCode: 404,
-                    body: JSON.stringify("Invalid ID....")
-                }
-            }
-            else {
-                console.log("ID Found");
-                let ans = await deptModel.findByIdAndUpdate(id, { $set: temp }).then((data) => {
-                    if(data != null){
-                        console.log("Data Updated");
-                        return {
-                            statusCode: 200,
-                            body: JSON.stringify("Data Has Updated....")
-                        }
-                    }
-                    else
-                    {
-                        return {
-                            statusCode: 404,
-                            body: JSON.stringify("Data Has Not Updated....")
-                        }
+
+    let newData = await JSON.parse(req.body);
+    let temp = deptModel.findById(newData._id).then(async (result) => {
+        let Store = await checkDept(newData.deptName)
+        if (result != null) {
+            
+            if(Store)
+            {
+                console.log("Dept Name not exist");
+                let query = deptModel.findByIdAndUpdate(newData._id,{$set : newData}).then((data) =>{
+                    return{
+                        statusCode : 200,
+                        body : JSON.stringify(data)
                     }
                 })
-                return ans;
+                return query;
             }
-
-        }
-
-    }
-    else {
-        let checkID = await deptModel.findOne({ "_id": id })
-        if (checkID == null) {
-            console.log("Id Not found");
-            return {
-                statusCode: 404,
-                body: JSON.stringify("Invalid ID....")
+            return{
+                statusCode : 404,
+                body : JSON.stringify("Dept Name Already Exist")
             }
         }
-        else {
-            console.log("ID Found");
-            let ans = await deptModel.findByIdAndUpdate(id, { $set: temp }).then(() => {
-                console.log("Data Updated");
-                return {
-                    statusCode: 200,
-                    body: JSON.stringify("Data Has Updated....")
-                }
-            }).catch(error => {
-                return {
-                    statusCode: 404,
-                    body: JSON.stringify("Data Has Not Updated....")
-                }
-            })
-            // console.log(ans);
-            return ans;
+    }).catch((err) => {
+        return {
+            statusCode: 404,
+            body: "Invalid ID"
         }
-
-    }
-
-
+    })
+    return temp;
 }
 
 
