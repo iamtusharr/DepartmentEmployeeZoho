@@ -16,7 +16,7 @@ const updateDesignation = async (req, res) => {
             console.log("Designation Name already exist")
             return {
                 statusCode: 404,
-                body: JSON.stringify("Division Name Already Exist")
+                body: JSON.stringify("Designation Name Already Exist")
             }
         }
         else {
