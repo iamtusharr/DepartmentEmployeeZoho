@@ -51,11 +51,7 @@ const updateDept = async (req, res) => {
             body: "Invalid ID"
         }
     })
-    return temp;
-    // return{
-    //     statusCode:200,
-    //     body:"done"
-    // }
+    return temp;    
 }
 
 
