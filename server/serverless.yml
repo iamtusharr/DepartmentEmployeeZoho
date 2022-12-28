@@ -104,6 +104,12 @@ functions:
       - httpApi:
           path: /displayEmployee
           method: get
+  displayEmployeeById:
+    handler: ./api/employee/displayEmployee.displayEmployeeById
+    events:
+      - httpApi:
+          path: /displayEmployeeById/{_id}
+          method: get
   updateEmployee:
     handler: ./api/employee/updateEmployee.updateEmployee
     events:
