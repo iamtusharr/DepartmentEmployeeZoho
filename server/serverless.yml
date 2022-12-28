@@ -44,6 +44,12 @@ functions:
       - httpApi:
           path: /displayDivision
           method: get
+  displayDivisionById:
+    handler: ./api/division/displayDivision.displayDivisionById
+    events:
+      - httpApi:
+          path: /displayDivisionById/{_id}
+          method: get
   deleteDivision:
     handler: ./api/division/deleteDivision.deleteDivision
     events:
