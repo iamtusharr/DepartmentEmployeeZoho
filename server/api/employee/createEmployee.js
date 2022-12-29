@@ -33,6 +33,7 @@ const createEmployee = async (req, res) => {
     }
     let findDesignation = await designationModel.findOne({"designationName" : empDesignation})
     console.log("findDesignation --> ",findDesignation)
+      
     if(findDesignation == null)
     {
         return{
